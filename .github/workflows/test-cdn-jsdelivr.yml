@@ -1,0 +1,83 @@
+name: Test CDN Build (jsdelivr)
+
+on:
+  schedule:
+    # every hour
+    - cron: '0 * * * *'
+  pull_request:
+    paths:
+      - 'playwright/tests/**'
+      - 'examples/cdn-api-reference/**'
+      - '.github/workflows/test-cdn-jsdelivr.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Restore Turborepo cache
+        uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-node-${{ matrix.node-version }}
+      - name: Build packages
+        run: pnpm build:packages
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(npx playwright --version | cut -d' ' -f2)" >> "$GITHUB_OUTPUT"
+      - name: Playwright binary cache
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright browsers
+        run: npx playwright install
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: npx playwright install-deps
+      - name: Start HTML server
+        run: pnpm --filter @scalar-examples/cdn-api-reference dev &
+      - name: Run E2E tests (jsdelivr)
+        run: |
+          CI=1 pnpm test:e2e:jsdelivr | tee output.log
+          if grep -q -e "Error: A snapshot doesn't exist at" -e "Screenshot comparison failed" output.log; then
+            echo "Playwright tests failed due to a snapshot issue."
+            echo "SNAPSHOT_DIFFERENCES=true" >> $GITHUB_ENV
+            exit 1
+          elif grep -q "failed" output.log; then
+            echo "Playwright tests failed due to a non-snapshot issue."
+            exit 1
+          fi
+      - uses: actions/upload-artifact@184d73b71b93c222403b2e7f1ffebe4508014249
+        id: artifact-upload
+        if: ${{ failure() && env.SNAPSHOT_DIFFERENCES == 'true' }}
+        with:
+          name: playwright-report
+          path: ./playwright/test-results/
+          retention-days: 7
+      - name: Comment on PR with report link
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
+        if: ${{ failure() && env.SNAPSHOT_DIFFERENCES == 'true' && github.event_name == 'pull_request'}}
+        with:
+          message: |
+            ### Playwright visual snapshot differences were detected.
+            View the [Playwright report](${{ steps.artifact-upload.outputs.artifact-url }}) to review the visual differences.
+            Inspect the changes and commit the updated snapshots if they are satisfactory.
+            If a **snapshot-diff.png** is not provided, the snapshots are different sizes.

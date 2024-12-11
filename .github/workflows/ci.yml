@@ -1,0 +1,527 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  harden_security:
+    name: Check used GitHub Actions
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Ensure all Actions are pinned to a Commit SHA
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@5d6ac37a4cef8b8df67f482a8e384987766f0213
+
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Save Turborepo cache
+        uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-node-${{ matrix.node-version }}-${{ github.sha }}
+
+  docker:
+    name: Build and Tag Docker Image
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Check whether the Dockerfile or any of its contents were modified
+        id: changed-files
+        uses: tj-actions/changed-files@4edd678ac3f81e2dc578756871e4d00c19191daf
+        with:
+          files_yaml: |
+            api_reference_docker:
+              - packages/api-reference/docker/**
+            api_reference_docker_version:
+              - packages/api-reference/docker/package.json
+
+      - if: steps.changed-files.outputs.api_reference_docker_any_changed == 'true'
+        name: Set up Docker
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349
+
+      - if: steps.changed-files.outputs.api_reference_docker_any_changed == 'true'
+        name: Get version from package.json
+        id: package-version
+        run: echo "VERSION=$(node -p "require('./packages/api-reference/docker/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - if: steps.changed-files.outputs.api_reference_docker_any_changed == 'true'
+        name: Build and tag Docker image
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355
+        with:
+          context: packages/api-reference/docker/src
+          file: packages/api-reference/docker/src/Dockerfile
+          push: false
+          load: true
+          # Linux-only at first
+          platforms: linux/amd64
+          tags: |
+            scalarapi/api-reference:latest
+            scalarapi/api-reference:${{ steps.package-version.outputs.VERSION }}
+
+      - if: steps.changed-files.outputs.api_reference_docker_any_changed == 'true'
+        name: Scan for vulnerabilities
+        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0
+        with:
+          scan-type: 'config'
+          scan-ref: 'packages/api-reference/docker/src/Dockerfile'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          retry-count: 3
+          retry-delay: 30s
+
+      - if: startsWith(github.event.head_commit.message, 'RELEASING:') && steps.changed-files.outputs.api_reference_docker_version_any_changed == 'true'
+        name: Log in to DockerHub
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+        with:
+          # Username of your Docker account
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # https://app.docker.com/settings/personal-access-tokens
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - if: startsWith(github.event.head_commit.message, 'RELEASING:') && steps.changed-files.outputs.api_reference_docker_version_any_changed == 'true'
+        name: Push Docker image
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355
+        with:
+          context: packages/api-reference/docker/src
+          file: packages/api-reference/docker/src/Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # With ARM
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            scalarapi/api-reference:latest
+            scalarapi/api-reference:${{ steps.package-version.outputs.VERSION }}
+
+  format:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dev dependencies
+        run: pnpm install --dev
+      - name: Check code style
+        run: pnpm format:check
+
+  types:
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Check types
+        run: pnpm turbo types:check
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build @scalar/cli
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+          packages-only: 'cli'
+      - name: Build @scalar/fastify-api-reference
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+          packages-only: 'fastify-api-reference'
+      - name: Build @scalar/echo-server
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+          packages-only: 'echo-server'
+      - name: Run tests
+        run: pnpm test:ci
+      - name: Setup Go
+        uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed
+        with:
+          go-version: '1.21'
+      - name: Run tests for the proxy server (Go)
+        run: cd examples/proxy-server && pnpm test
+
+  stats:
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build @scalar/api-reference
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+          packages-only: 'api-reference'
+      - name: Send bundle stats and build information to RelativeCI
+        uses: relative-ci/agent-action@26338b6cffd0b7eef7136ebed5ff3ddc22cbe113
+        with:
+          key: ${{ secrets.RELATIVE_CI_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          webpackStatsFile: ./packages/api-reference/dist/browser/webpack-stats.json
+
+  npm-publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      id-token: write
+    needs: [build, test]
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Git Status
+        run: git status
+      - name: Stash changes
+        run: git stash
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308
+        with:
+          # The pull request title.
+          title: 'chore: release'
+          # The command to update version, edit CHANGELOG, read and delete changesets.
+          version: 'pnpm changeset version'
+          # The commit message to use.
+          commit: 'chore: version packages'
+          # The command to use to build and publish packages
+          publish: 'pnpm -r publish --access public'
+        env:
+          # https://github.com/settings/tokens/new
+          # Expiration: No expiration
+          # Select: repo.*
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          # https://www.npmjs.com/settings/YOUR_ACCOUNT_HANDLE/tokens/granular-access-tokens/new
+          # Custom Expiration: 01-01-2100
+          # Permissions: Read and Write
+          # Select packages: @scalar
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  todesktop-build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    needs: [build, test]
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Git Status
+        run: git status
+      - name: Stash changes
+        run: git stash
+      - name: Check whether appFiles are there
+        run: ls -R ./packages/scalar-app/dist
+      - if: startsWith(github.event.head_commit.message, 'RELEASING:')
+        name: Check whether there’s a new version of the app
+        id: changed-files
+        uses: tj-actions/changed-files@4edd678ac3f81e2dc578756871e4d00c19191daf
+        with:
+          files_yaml: |
+            api_client_app:
+              - packages/scalar-app/package.json
+      - if: steps.changed-files.outputs.api_client_app_any_changed == 'true'
+        name: Check whether appFiles are there
+        run: ls -R ./packages/scalar-app/dist
+      - if: steps.changed-files.outputs.api_client_app_any_changed == 'true'
+        name: Build in the toDesktop cloud
+        run: pnpm --filter scalar-app todesktop:build
+        env:
+          TODESKTOP_EMAIL: ${{ secrets.TODESKTOP_EMAIL }}
+          TODESKTOP_ACCESS_TOKEN: ${{ secrets.TODESKTOP_ACCESS_TOKEN }}
+      # - if: steps.changed-files.outputs.api_client_app_any_changed == 'true'
+      #   name: Run smoke tests
+      #   run: pnpm --filter scalar-app todesktop:test:ci
+      #   env:
+      #     TODESKTOP_EMAIL: ${{ secrets.TODESKTOP_EMAIL }}
+      #     TODESKTOP_ACCESS_TOKEN: ${{ secrets.TODESKTOP_ACCESS_TOKEN }}
+      # - if: steps.changed-files.outputs.api_client_app_any_changed == 'true'
+      #   name: Release the app
+      #   run: pnpm --filter scalar-app todesktop:release:ci
+      #   env:
+      #     TODESKTOP_EMAIL: ${{ secrets.TODESKTOP_EMAIL }}
+      #     TODESKTOP_ACCESS_TOKEN: ${{ secrets.TODESKTOP_ACCESS_TOKEN }}
+
+  stackblitz:
+    if: github.head_ref == 'changeset-release/main'
+    runs-on: ubuntu-22.04
+    needs: [build]
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build packages
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+          packages-only: 'true'
+      - name: Bump versions
+        # Let’s apply the changesets and bump the version already,
+        # so it’ll have the upcoming version numbers already.
+        run: pnpm changeset version
+      - name: Publish on Stackblitz
+        # We can’t use npx pkg-pr-new publish ./packages/* here.
+        # We want to explicitly publish the packages we want to save some time.
+        run: npx pkg-pr-new publish
+          ./packages/api-client
+          ./packages/api-reference
+          ./packages/api-reference-react
+          ./packages/components
+          ./packages/docusaurus
+          ./packages/express-api-reference
+          ./packages/fastify-api-reference
+          ./packages/hono-api-reference
+          ./packages/nestjs-api-reference
+          ./packages/nextjs-api-reference
+          ./packages/nuxt
+          ./packages/themes
+
+  deploy-api-client:
+    # Only run this job for PRs from the same repository
+    if: github.ref == 'refs/heads/main' || github.event.pull_request.head.repo.full_name == github.repository
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check which files were touched
+        id: changed-files
+        uses: tj-actions/changed-files@4edd678ac3f81e2dc578756871e4d00c19191daf
+        with:
+          files_yaml: |
+            api_client:
+              - projects/client-scalar-com/**
+              - packages/api-client/**
+      - if: steps.changed-files.outputs.api_client_any_changed == 'true'
+        name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+      - if: steps.changed-files.outputs.api_client_any_changed == 'true'
+        name: Deploy to client.scalar.com
+        id: deploy-client
+        uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f
+        with:
+          command: pages deploy dist --project-name=client
+          workingDirectory: projects/client-scalar-com
+          # 1) Log in to the Cloudflare dashboard.
+          # 2) Select Workers & Pages.
+          # 3) See the Account ID in the right sidebar.
+          # Read more: https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # 1) Go to https://dash.cloudflare.com/profile/api-tokens
+          # 2) Create a token with the following permissions:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - if: github.ref != 'refs/heads/main' && steps.deploy-client.outputs.deployment-url
+        name: Add Cloudflare Preview URL to the PR
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
+        with:
+          message: |
+            **Cloudflare Preview for the API Client**
+
+            ${{ steps.deploy-client.outputs.deployment-url }}
+          comment_tag: 'cloudflare-preview'
+
+  deploy-examples:
+    # Skip for forks and bot PRs
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && !contains(github.actor, '[bot]')
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Generate new DEPLOY_ID
+        run: echo "DEPLOY_ID=$(uuidgen)" >> "$GITHUB_ENV" && echo $DEPLOY_ID
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          node-version: ${{ matrix.node-version }}
+        env:
+          DEPLOY_ID: ${{ env.DEPLOY_ID }}
+      - name: Install Netlify CLI
+        run: pnpm install -g netlify
+      - name: Deploy to Netlify
+        run: |
+          netlify deploy --dir "./examples/web/dist" \
+            --message "Deployed from GitHub (${{ env.DEPLOY_ID }})" \
+            --site ${{ vars.NETLIFY_SITE_ID_PREVIEW }} \
+            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} \
+            --filter @scalar-examples/web \
+            --alias=${{env.DEPLOY_ID}}
+      - name: Add Netlify Preview URL to the PR
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
+        with:
+          message: |
+            **Preview Examples**
+
+            https://${{env.DEPLOY_ID}}--scalar-deploy-preview.netlify.app
+          comment_tag: 'netlify-preview'
+
+  aspnetcore-build-test:
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@3e891b0cb619bf60e2c25674b222b8940e2c1c25
+        with:
+          dotnet-version: 9.x
+
+      - name: Build @scalar/api-reference
+        uses: ./.github/actions/build
+        with:
+          node-version: 20
+          packages-only: 'api-reference'
+
+      - name: Copy JavaScript asset from @scalar/api-reference
+        working-directory: packages/scalar.aspnetcore
+        run: pnpm prepare:build
+
+      - name: Restore dependencies
+        working-directory: packages/scalar.aspnetcore
+        run: dotnet restore
+
+      - name: Build solution
+        working-directory: packages/scalar.aspnetcore
+        run: dotnet build -c Release --no-restore
+
+      - name: Test solution
+        working-directory: packages/scalar.aspnetcore
+        run: dotnet test -c Release --no-build
+
+  aspnetcore-publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    needs: [aspnetcore-build-test]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Git Status
+        run: git status
+
+      - name: Stash changes
+        run: git stash
+
+      - if: startsWith(github.event.head_commit.message, 'RELEASING:')
+        name: Check for new NuGet package version
+        id: changed-files
+        uses: tj-actions/changed-files@4edd678ac3f81e2dc578756871e4d00c19191daf
+        with:
+          files_yaml: |
+            aspnetcore_package:
+              - packages/scalar.aspnetcore/package.json
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Setup .NET
+        uses: actions/setup-dotnet@3e891b0cb619bf60e2c25674b222b8940e2c1c25
+        with:
+          dotnet-version: 9.x
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Extract version from package.json
+        working-directory: packages/scalar.aspnetcore
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Build @scalar/api-reference
+        uses: ./.github/actions/build
+        with:
+          node-version: 20
+          packages-only: 'api-reference'
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Copy JavaScript asset from @scalar/api-reference
+        working-directory: packages/scalar.aspnetcore
+        run: pnpm prepare:build
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Restore dependencies
+        working-directory: packages/scalar.aspnetcore/src/Scalar.AspNetCore
+        run: dotnet restore
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Pack Scalar.AspNetCore
+        working-directory: packages/scalar.aspnetcore/src/Scalar.AspNetCore
+        run: dotnet pack -c Release --no-restore --output nupkgs /p:Version=$VERSION
+
+      - if: steps.changed-files.outputs.aspnetcore_package_any_changed == 'true'
+        name: Publish Scalar.AspNetCore
+        working-directory: packages/scalar.aspnetcore/src/Scalar.AspNetCore
+        run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
