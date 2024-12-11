@@ -73,7 +73,7 @@ jobs:
           path: ./playwright/test-results/
           retention-days: 7
       - name: Comment on PR with report link
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         if: ${{ failure() && env.SNAPSHOT_DIFFERENCES == 'true' && github.event_name == 'pull_request'}}
         with:
           message: |
