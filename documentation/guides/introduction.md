@@ -14,8 +14,8 @@ Hop over to <https://docs.scalar.com> and take it for a spin. You don’t even n
 
 We’ve also got some seriously cool open-source projects on GitHub! Go ahead, dive in and play around. These tools are here to make your life easier. Whether you’re an API pro or just getting started, I bet there’s something here for you:
 
-| Project                                                                                                | Description            |
-| ------------------------------------------------------------------------------------------------------ | ---------------------- |
+| Project                                                                                                    | Description            |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------- |
 | [Scalar API Reference](https://github.com/khulnasoft/scalar/blob/main/packages/api-reference/README.md)    | API reference          |
 | [Scalar API Client](https://github.com/khulnasoft/scalar/blob/main/packages/api-client/README.md)          | API client             |
 | [Scalar CLI](https://github.com/khulnasoft/scalar/blob/main/packages/cli/README.md)                        | Command-line interface |
@@ -24,7 +24,7 @@ We’ve also got some seriously cool open-source projects on GitHub! Go ahead, d
 | [Scalar Mock Server](https://github.com/khulnasoft/scalar/blob/main/packages/mock-server/README.md)        | OpenAPI Mock Server    |
 | [Scalar Void Server](https://github.com/khulnasoft/scalar/blob/main/packages/void-server/README.md)        | HTTP Request Mirror    |
 | [Scalar Open API Parser](https://github.com/khulnasoft/scalar/blob/main/packages/openapi-parser/README.md) | OpenAPI SDK            |
-| [Scalar Sandbox](https://sandbox.scalar.com/)                                                          | Online OpenAPI Editor  |
+| [Scalar Sandbox](https://sandbox.scalar.com/)                                                              | Online OpenAPI Editor  |
 
 ## Community
 
