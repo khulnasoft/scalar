@@ -51,7 +51,7 @@ export type FastifyApiReferenceOptions = {
   /**
    * The universal configuration object for @scalar/api-reference.
    *
-   * Read more: https://github.com/scalar/scalar
+   * Read more: https://github.com/khulnasoft/scalar
    */
   configuration?: ReferenceConfiguration
   /**

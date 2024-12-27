@@ -2,15 +2,15 @@
   "name": "@scalar/use-hooks",
   "description": "Utility hooks for Scalar",
   "license": "MIT",
-  "author": "Scalar (https://github.com/scalar)",
-  "homepage": "https://github.com/scalar/scalar",
-  "bugs": "https://github.com/scalar/scalar/issues/new/choose",
+  "author": "KhulnaSoft (https://github.com/khulnasoft)",
+  "homepage": "https://github.com/khulnasoft/scalar",
+  "bugs": "https://github.com/khulnasoft/scalar/issues/new/choose",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scalar/scalar.git",
+    "url": "git+https://github.com/khulnasoft/scalar.git",
     "directory": "packages/use-hooks"
   },
-  "version": "0.1.7",
+  "version": "0.1.11",
   "engines": {
     "node": ">=18"
   },

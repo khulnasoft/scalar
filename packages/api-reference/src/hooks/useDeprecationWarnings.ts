@@ -32,7 +32,7 @@ export function useDeprecationWarnings(configuration: ReferenceConfiguration) {
         configuration.proxyUrl = NEW_PROXY_URL
 
         console.warn(
-          `[DEPRECATED] Action Required: You should manually update your configuration to use the new URL (${NEW_PROXY_URL}). Read more: https://github.com/scalar/scalar`,
+          `[DEPRECATED] Action Required: You should manually update your configuration to use the new URL (${NEW_PROXY_URL}). Read more: https://github.com/khulnasoft/scalar`,
         )
       }
     },

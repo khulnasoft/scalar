@@ -7,7 +7,7 @@
 
 This middleware provides an easy way to render a beautiful API reference based on an OpenAPI/Swagger document with Hono.
 
-![hono-js](https://github.com/scalar/scalar/assets/6176314/6f5a2102-e377-4d4e-9cfb-a512f5e0a9ba)
+![hono-js](https://github.com/khulnasoft/scalar/assets/6176314/6f5a2102-e377-4d4e-9cfb-a512f5e0a9ba)
 
 ## Installation
 
@@ -32,11 +32,11 @@ app.get(
 )
 ```
 
-The Hono middleware takes our universal configuration object, [read more about configuration](https://github.com/scalar/scalar/blob/main/documentation/configuration.md) in the core package README.
+The Hono middleware takes our universal configuration object, [read more about configuration](https://github.com/khulnasoft/scalar/blob/main/documentation/configuration.md) in the core package README.
 
 ### Themes
 
-The middleware comes with a custom theme for Hono. You can use one of [the other predefined themes](https://github.com/scalar/scalar/blob/main/packages/themes/src/index.ts#L15) (`alternate`, `default`, `moon`, `purple`, `solarized`) or overwrite it with `none`. All themes come with a light and dark color scheme.
+The middleware comes with a custom theme for Hono. You can use one of [the other predefined themes](https://github.com/khulnasoft/scalar/blob/main/packages/themes/src/index.ts#L15) (`alternate`, `default`, `moon`, `purple`, `solarized`) or overwrite it with `none`. All themes come with a light and dark color scheme.
 
 ```ts
 import { apiReference } from '@scalar/hono-api-reference'
@@ -98,4 +98,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

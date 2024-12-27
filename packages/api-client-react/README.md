@@ -11,6 +11,11 @@
 npm install @scalar/api-client-react
 ```
 
+## Compatibility
+
+This package is compatible with React 19 and is untested on React 18. If you want guaranteed React 18 support please use
+version `1.0.107` of this package.
+
 ## Usage
 
 First we need to add the provider, you should add it in the highest place you have a unique spec.
@@ -52,4 +57,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

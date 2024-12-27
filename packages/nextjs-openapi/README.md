@@ -8,9 +8,9 @@
 This plugin automatically generates an OpenAPI schema file based on a Next.js API.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/scalar/scalar/assets/2039539/5837adad-a605-4edb-90ec-b929ff2b803b">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/scalar/scalar/assets/2039539/4f58202d-f40f-47b3-aeaa-44681b424a45">
-  <img alt="Screenshot of an API Reference" src="https://github.com/scalar/scalar/assets/2039539/4f58202d-f40f-47b3-aeaa-44681b424a45">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/khulnasoft/scalar/assets/2039539/5837adad-a605-4edb-90ec-b929ff2b803b">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/khulnasoft/scalar/assets/2039539/4f58202d-f40f-47b3-aeaa-44681b424a45">
+  <img alt="Screenshot of an API Reference" src="https://github.com/khulnasoft/scalar/assets/2039539/4f58202d-f40f-47b3-aeaa-44681b424a45">
 </picture>
 
 ## Installation

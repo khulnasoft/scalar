@@ -2,7 +2,7 @@ namespace Scalar.AspNetCore;
 
 /// <summary>
 /// Represents all available options for the Scalar API reference.
-/// Based on <a href="https://github.com/scalar/scalar/blob/main/documentation/configuration.md">Configuration</a>.
+/// Based on <a href="https://github.com/khulnasoft/scalar/blob/main/documentation/configuration.md">Configuration</a>.
 /// </summary>
 public sealed class ScalarOptions
 {

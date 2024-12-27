@@ -16,14 +16,14 @@ We’ve also got some seriously cool open-source projects on GitHub! Go ahead, d
 
 | Project                                                                                                | Description            |
 | ------------------------------------------------------------------------------------------------------ | ---------------------- |
-| [Scalar API Reference](https://github.com/scalar/scalar/blob/main/packages/api-reference/README.md)    | API reference          |
-| [Scalar API Client](https://github.com/scalar/scalar/blob/main/packages/api-client/README.md)          | API client             |
-| [Scalar CLI](https://github.com/scalar/scalar/blob/main/packages/cli/README.md)                        | Command-line interface |
-| [Scalar Galaxy](https://github.com/scalar/scalar/blob/main/packages/galaxy/README.md)                  | OpenAPI Example        |
-| [Scalar Play Button](https://github.com/scalar/scalar/blob/main/packages/play-button/README.md)        | Quick API Client Embed |
-| [Scalar Mock Server](https://github.com/scalar/scalar/blob/main/packages/mock-server/README.md)        | OpenAPI Mock Server    |
-| [Scalar Void Server](https://github.com/scalar/scalar/blob/main/packages/void-server/README.md)        | HTTP Request Mirror    |
-| [Scalar Open API Parser](https://github.com/scalar/scalar/blob/main/packages/openapi-parser/README.md) | OpenAPI SDK            |
+| [Scalar API Reference](https://github.com/khulnasoft/scalar/blob/main/packages/api-reference/README.md)    | API reference          |
+| [Scalar API Client](https://github.com/khulnasoft/scalar/blob/main/packages/api-client/README.md)          | API client             |
+| [Scalar CLI](https://github.com/khulnasoft/scalar/blob/main/packages/cli/README.md)                        | Command-line interface |
+| [Scalar Galaxy](https://github.com/khulnasoft/scalar/blob/main/packages/galaxy/README.md)                  | OpenAPI Example        |
+| [Scalar Play Button](https://github.com/khulnasoft/scalar/blob/main/packages/play-button/README.md)        | Quick API Client Embed |
+| [Scalar Mock Server](https://github.com/khulnasoft/scalar/blob/main/packages/mock-server/README.md)        | OpenAPI Mock Server    |
+| [Scalar Void Server](https://github.com/khulnasoft/scalar/blob/main/packages/void-server/README.md)        | HTTP Request Mirror    |
+| [Scalar Open API Parser](https://github.com/khulnasoft/scalar/blob/main/packages/openapi-parser/README.md) | OpenAPI SDK            |
 | [Scalar Sandbox](https://sandbox.scalar.com/)                                                          | Online OpenAPI Editor  |
 
 ## Community

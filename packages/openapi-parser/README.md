@@ -279,4 +279,4 @@ Thanks a ton for all the help and inspiration:
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

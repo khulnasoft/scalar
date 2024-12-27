@@ -19,7 +19,7 @@ Wow, still nothing that fits your brand? Reach out to <marc@scalar.com> and weâ€
 We support two layouts at the moment, a `modern` layout (the default) and a Swagger UI inspired
 `classic` layout (we jazzed it up a bit though).
 
-![layouts](https://github.com/scalar/scalar/assets/6374090/a28b89e0-8d3b-477f-a02f-bcf39f7830f0)
+![layouts](https://github.com/khulnasoft/scalar/assets/6374090/a28b89e0-8d3b-477f-a02f-bcf39f7830f0)
 
 ## Advanced: Styling
 
@@ -77,7 +77,7 @@ You can [use all variables](../packages/themes/src/variables.css) as well as ove
 To build your own color themes, overwrite the night mode and day mode variables.
 Here are some basic variables to get you started:
 
-![basic-scalar-variables](https://github.com/scalar/scalar/assets/6374090/f49256c4-4623-4797-87a1-24bdbc9b17fd)
+![basic-scalar-variables](https://github.com/khulnasoft/scalar/assets/6374090/f49256c4-4623-4797-87a1-24bdbc9b17fd)
 
 ```html
 <style>
@@ -107,7 +107,7 @@ Here are some basic variables to get you started:
 
 Or get more advanced by styling our sidebar!
 
-![scalar-sidebar-variables](https://github.com/scalar/scalar/assets/6374090/5b1f0211-5c09-4092-a882-03d8241ad428)
+![scalar-sidebar-variables](https://github.com/khulnasoft/scalar/assets/6374090/5b1f0211-5c09-4092-a882-03d8241ad428)
 
 ```html
 <style>

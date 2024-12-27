@@ -2,12 +2,12 @@
   "name": "@scalar/code-highlight",
   "description": "Central methods and themes for code highlighting in Scalar projects",
   "license": "MIT",
-  "author": "Scalar (https://github.com/scalar)",
-  "homepage": "https://github.com/scalar/scalar",
-  "bugs": "https://github.com/scalar/scalar/issues/new/choose",
+  "author": "KhulnaSoft (https://github.com/khulnasoft)",
+  "homepage": "https://github.com/khulnasoft/scalar",
+  "bugs": "https://github.com/khulnasoft/scalar/issues/new/choose",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scalar/scalar.git",
+    "url": "git+https://github.com/khulnasoft/scalar.git",
     "directory": "packages/code-highlight"
   },
   "keywords": [
@@ -16,7 +16,7 @@
     "lowlight",
     "highlightjs"
   ],
-  "version": "0.0.18",
+  "version": "0.0.19",
   "engines": {
     "node": ">=18"
   },

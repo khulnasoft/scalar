@@ -44,7 +44,7 @@ onBeforeUnmount(() => events.hotKeys.off(handleHotKey))
         Scalar App V{{ packageVersion }} Beta
         <div class="mt-2">
           <a
-            href="https://github.com/scalar/scalar/issues/2669"
+            href="https://github.com/khulnasoft/scalar/issues/2669"
             target="_blank">
             Roadmap
           </a>

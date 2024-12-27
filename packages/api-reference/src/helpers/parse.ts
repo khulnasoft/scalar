@@ -17,13 +17,19 @@ import type {
   OpenAPIV3_1,
 } from '@scalar/openapi-types'
 import type { Spec } from '@scalar/types/legacy'
+import type { UnknownObject } from '@scalar/types/utils'
 
 import { createEmptySpecification } from '../helpers'
 
 type AnyObject = Record<string, any>
 
+/**
+ * Parse the given specification and return a super custom transformed specification.
+ *
+ * @deprecated Try to use a store instead.
+ */
 export const parse = (
-  specification: any,
+  specification: UnknownObject | string | undefined,
   {
     proxyUrl,
   }: {
@@ -58,7 +64,7 @@ export const parse = (
 
       if (errors?.length) {
         console.warn(
-          'Please open an issue on https://github.com/scalar/scalar\n',
+          'Please open an issue on https://github.com/khulnasoft/scalar\n',
           'Scalar OpenAPI Parser Warning:\n',
           errors,
         )
@@ -96,7 +102,7 @@ const transformResult = (originalSchema: OpenAPI.Document): Spec => {
   if (originalSchema && typeof originalSchema === 'object') {
     schema = structuredClone(originalSchema)
   } else {
-    schema = createEmptySpecification() as AnyObject
+    schema = createEmptySpecification() as OpenAPI.Document
   }
 
   // Create empty tags array
@@ -144,18 +150,6 @@ const transformResult = (originalSchema: OpenAPI.Document): Spec => {
           ...originalWebhook,
         },
       }
-
-      // Object.assign(
-      //   (schema).webhooks?.[name]?.[httpVerb] ?? {},
-      //   {},
-      // )
-      // Object.assign(
-      //   (schema).webhooks?.[name]?.[httpVerb] ?? {},
-      //   {},
-      // )
-      // information: {
-      //   ...(schema).webhooks?.[name],
-      // },
     })
   })
 

@@ -87,7 +87,7 @@ watch(url, (newUrl) => {
     </div>
     <nav>
       <a
-        href="https://github.com/scalar/scalar/issues/new/choose"
+        href="https://github.com/khulnasoft/scalar/issues/new/choose"
         target="_blank">
         New GitHub Issue
       </a>

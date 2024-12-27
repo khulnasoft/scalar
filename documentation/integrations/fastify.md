@@ -193,7 +193,7 @@ npm run dev
 
 I cross my fingers for you, but this should give you a pretty decent OpenAPI file on <http://localhost:3000/openapi.json>
 
-Did it work? OMG, this is so cool! It didn’t? [Create a new issue](https://github.com/scalar/scalar/issues/new/choose) so we can improve this guide here — I mean, that’s the beauty of open source, isn’t it?
+Did it work? OMG, this is so cool! It didn’t? [Create a new issue](https://github.com/khulnasoft/scalar/issues/new/choose) so we can improve this guide here — I mean, that’s the beauty of open source, isn’t it?
 
 ## Render your OpenAPI reference with Scalar
 
@@ -248,12 +248,12 @@ await fastify.register(ScalarApiReference, {
   configuration: {
     layout: 'classic',
     // Learn more about configuration:
-    // https://github.com/scalar/scalar/tree/main/documentation/configuration.md
+    // https://github.com/khulnasoft/scalar/tree/main/documentation/configuration.md
   },
 })
 ```
 
-TypeScript should give you a nice autocomplete for all options. If you’re more into reading an actual reference, you can read about all options here: <https://github.com/scalar/scalar/tree/main/documentation/configuration.md>
+TypeScript should give you a nice autocomplete for all options. If you’re more into reading an actual reference, you can read about all options here: <https://github.com/khulnasoft/scalar/tree/main/documentation/configuration.md>
 
 ## Advanced: Handcrafted OpenAPI files
 

@@ -20,7 +20,7 @@ A powerful Node.js mock server that automatically generates realistic API respon
 
 ## Quickstart
 
-The easiest way to get started is through [our Scalar CLI](https://github.com/scalar/scalar/tree/main/packages/cli).
+The easiest way to get started is through [our Scalar CLI](https://github.com/khulnasoft/scalar/tree/main/packages/cli).
 You can have a mock server up and running in seconds:
 
 ```bash
@@ -189,4 +189,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

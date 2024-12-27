@@ -62,11 +62,11 @@ app.use(
 )
 ```
 
-The NestJS middleware takes our universal configuration object, [read more about configuration](https://github.com/scalar/scalar/tree/main/packages/api-reference#props) in the core package README.
+The NestJS middleware takes our universal configuration object, [read more about configuration](https://github.com/khulnasoft/scalar/tree/main/packages/api-reference#props) in the core package README.
 
 ### Themes
 
-The middleware comes with a custom theme for NestJS. You can use one of [the other predefined themes](https://github.com/scalar/scalar/blob/main/packages/themes/src/index.ts#L15) (`alternate`, `default`, `moon`, `purple`, `solarized`) or overwrite it with `none`. All themes come with a light and dark color scheme.
+The middleware comes with a custom theme for NestJS. You can use one of [the other predefined themes](https://github.com/khulnasoft/scalar/blob/main/packages/themes/src/index.ts#L15) (`alternate`, `default`, `moon`, `purple`, `solarized`) or overwrite it with `none`. All themes come with a light and dark color scheme.
 
 ```ts
 import { apiReference } from '@scalar/nestjs-api-reference'

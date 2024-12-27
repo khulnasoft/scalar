@@ -73,7 +73,7 @@ async function fetchExampleSpecification() {
         <div class="start-h2">INTEGRATIONS</div>
         <a
           class="start-item"
-          href="https://github.com/scalar/scalar/tree/main/packages/fastify-api-reference#readme"
+          href="https://github.com/khulnasoft/scalar/tree/main/packages/fastify-api-reference#readme"
           target="_blank">
           <svg
             fill="currentColor"
@@ -90,7 +90,7 @@ async function fetchExampleSpecification() {
         </a>
         <a
           class="start-item"
-          href="https://github.com/scalar/scalar/tree/main#from-a-cdn"
+          href="https://github.com/khulnasoft/scalar/tree/main#from-a-cdn"
           target="_blank">
           <svg
             fill="currentColor"
@@ -112,7 +112,7 @@ async function fetchExampleSpecification() {
         </a>
         <a
           class="start-item"
-          href="https://github.com/scalar/scalar/tree/main#with-vuejs"
+          href="https://github.com/khulnasoft/scalar/tree/main#with-vuejs"
           target="_blank">
           <svg
             height="170"
@@ -132,7 +132,7 @@ async function fetchExampleSpecification() {
         </a>
         <a
           class="start-item"
-          href="https://github.com/scalar/scalar/tree/main#with-react"
+          href="https://github.com/khulnasoft/scalar/tree/main#with-react"
           target="_blank">
           <svg
             height="23.3"

@@ -10,7 +10,7 @@ export type ApiReferenceOptions = ReferenceConfiguration & {
 /**
  * Next.js adapter for an Api Reference
  *
- * {@link https://github.com/scalar/scalar/tree/main/documentation/configuration.md Configuration}
+ * {@link https://github.com/khulnasoft/scalar/tree/main/documentation/configuration.md Configuration}
  *
  * @params config - the Api Reference config object
  * @params options - reserved for future use to add customization to the response

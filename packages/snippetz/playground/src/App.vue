@@ -4,6 +4,8 @@ import { ref } from 'vue'
 
 import CodeExample from './components/CodeExample.vue'
 
+const { plugins } = snippetz()
+
 const selectedTarget = ref<TargetId>('node')
 const selectedClient = ref<ClientId<typeof selectedTarget.value>>('undici')
 
@@ -52,7 +54,7 @@ function selectPlugin<T extends TargetId>(plugin: {
   <h2>Available HTTP Clients</h2>
 
   <button
-    v-for="plugin in snippetz().plugins()"
+    v-for="plugin in plugins()"
     :key="plugin.client"
     class="client"
     :class="{
@@ -71,7 +73,7 @@ function selectPlugin<T extends TargetId>(plugin: {
   <h2>Source Code</h2>
 
   <div>
-    <a href="https://github.com/scalar/scalar/tree/main/packages/snippetz">
+    <a href="https://github.com/khulnasoft/scalar/tree/main/packages/snippetz">
       github.com/scalar/scalar/tree/main/packages/snippetz
     </a>
   </div>

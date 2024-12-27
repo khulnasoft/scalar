@@ -37,7 +37,7 @@ plugins: [
 ],
 ```
 
-We wrote a [detailed integration guide for Docusaurus](https://github.com/scalar/scalar/tree/main/documentation/integrations/docusaurus.md).
+We wrote a [detailed integration guide for Docusaurus](https://github.com/khulnasoft/scalar/tree/main/documentation/integrations/docusaurus.md).
 
 ### Multiple API descriptions
 
@@ -84,7 +84,7 @@ plugins: [
 
 ### Example
 
-You can find an example in this repo under [examples/docusaurus](https://github.com/scalar/scalar/tree/main/examples/docusaurus)
+You can find an example in this repo under [examples/docusaurus](https://github.com/khulnasoft/scalar/tree/main/examples/docusaurus)
 
 ## Config
 
@@ -101,7 +101,7 @@ Path at which the API Reference will be shown
 ### configuration: ReferenceProps
 
 You can find the full configuration options under
-[packages/api-reference](https://github.com/scalar/scalar/tree/main/packages/api-reference)
+[packages/api-reference](https://github.com/khulnasoft/scalar/tree/main/packages/api-reference)
 minus theme.
 
 ## Community
@@ -110,4 +110,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

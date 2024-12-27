@@ -9,7 +9,7 @@ The easiest way to render a modern and beautiful API reference based on your Dja
 ## Installation
 
 ```bash
-pip install git+https://github.com/scalar/scalar.git#subdirectory=packages/scalar_django_ninja
+pip install git+https://github.com/khulnasoft/scalar.git#subdirectory=packages/scalar_django_ninja
 ```
 
 ## Usage
@@ -49,4 +49,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

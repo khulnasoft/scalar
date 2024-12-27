@@ -15,10 +15,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Scalar;OpenAPI</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/scalar/scalar</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/scalar/scalar</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/khulnasoft/scalar</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/khulnasoft/scalar</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <LicenseUrl>https://github.com/scalar/scalar/blob/main/LICENSE</LicenseUrl>
+    <LicenseUrl>https://github.com/khulnasoft/scalar/blob/main/LICENSE</LicenseUrl>
     <Title>Scalar</Title>
     <Authors>Scalar</Authors>
     <Description>Generate beautiful interactive API documentation from OpenAPI/Swagger documents.</Description>

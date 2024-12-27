@@ -79,7 +79,7 @@ That’s it! 🎉 With the default settings, you can now access the Scalar API r
 
 ## Configuration
 
-For a full configuration guide, including OAuth integration and custom settings, refer to the [dotnet integration documentation](https://github.com/scalar/scalar/blob/main/documentation/integrations/dotnet.md).
+For a full configuration guide, including OAuth integration and custom settings, refer to the [dotnet integration documentation](https://github.com/khulnasoft/scalar/blob/main/documentation/integrations/dotnet.md).
 
 ## Development
 
@@ -100,4 +100,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

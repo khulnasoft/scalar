@@ -2,18 +2,18 @@
   "name": "@scalar/play-button",
   "description": "A minimal package to test any OpenAPI/Swagger Spec with the Scalar API Client",
   "license": "MIT",
-  "author": "Scalar (https://github.com/scalar)",
-  "homepage": "https://github.com/scalar/scalar",
-  "bugs": "https://github.com/scalar/scalar/issues/new/choose",
+  "author": "KhulnaSoft (https://github.com/khulnasoft)",
+  "homepage": "https://github.com/khulnasoft/scalar",
+  "bugs": "https://github.com/khulnasoft/scalar/issues/new/choose",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scalar/scalar.git",
+    "url": "git+https://github.com/khulnasoft/scalar.git",
     "directory": "packages/play-button"
   },
   "keywords": [
     ""
   ],
-  "version": "0.2.156",
+  "version": "0.2.175",
   "engines": {
     "node": ">=18"
   },

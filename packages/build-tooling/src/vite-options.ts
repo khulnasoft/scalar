@@ -95,7 +95,7 @@ export const autoCSSInject = (app: keyof typeof VARS_DICT): Plugin =>
               elementStyle.appendChild(document.createTextNode(${JSON.stringify(css)}))
               document.head.appendChild(elementStyle)
 
-              console.warn('Auto-loading the ${app} css through js has been deprecated. Please import the css directly. Visit https://github.com/scalar/scalar for more info.')
+              console.warn('Auto-loading the ${app} css through js has been deprecated. Please import the css directly. Visit https://github.com/khulnasoft/scalar for more info.')
             }, 0)
 
           } catch (error) {

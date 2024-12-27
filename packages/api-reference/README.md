@@ -8,7 +8,7 @@
 
 Generate interactive API documentations from Swagger files. [Try our Demo](https://docs.scalar.com/swagger-editor)
 
-[![Screenshot of an API Reference](https://github.com/scalar/scalar/assets/6201407/d8beb5e1-bf64-4589-8cb0-992ba79215a8)](https://docs.scalar.com/swagger-editor)
+[![Screenshot of an API Reference](https://github.com/khulnasoft/scalar/assets/6201407/d8beb5e1-bf64-4589-8cb0-992ba79215a8)](https://docs.scalar.com/swagger-editor)
 
 ## Installation
 
@@ -145,7 +145,7 @@ import '@scalar/api-reference/style.css'
 </template>
 ```
 
-You can [pass props to customize the API reference](https://github.com/scalar/scalar/tree/main/documentation/configuration.md).
+You can [pass props to customize the API reference](https://github.com/khulnasoft/scalar/tree/main/documentation/configuration.md).
 
 ## Community
 
@@ -153,4 +153,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

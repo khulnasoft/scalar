@@ -7,7 +7,7 @@
 
 This plugin provides an easy way to render a beautiful API reference based on a OpenAPI/Swagger file with Fastify.
 
-[![Screenshot of an API Reference](https://github.com/scalar/scalar/assets/6201407/d8beb5e1-bf64-4589-8cb0-992ba79215a8)](https://docs.scalar.com/swagger-editor)
+[![Screenshot of an API Reference](https://github.com/khulnasoft/scalar/assets/6201407/d8beb5e1-bf64-4589-8cb0-992ba79215a8)](https://docs.scalar.com/swagger-editor)
 
 ## Installation
 
@@ -48,13 +48,13 @@ await fastify.register(require('@scalar/fastify-api-reference'), {
 })
 ```
 
-We wrote a [detailed integration guide for Fastify](https://github.com/scalar/scalar/tree/main/documentation/integrations/fastify.md).
+We wrote a [detailed integration guide for Fastify](https://github.com/khulnasoft/scalar/tree/main/documentation/integrations/fastify.md).
 
-The fastify plugin takes our universal configuration object, [read more about configuration](https://github.com/scalar/scalar/tree/main/documentation/configuration.md) in the core package README.
+The fastify plugin takes our universal configuration object, [read more about configuration](https://github.com/khulnasoft/scalar/tree/main/documentation/configuration.md) in the core package README.
 
 ## Themes
 
-By default, we’re using a custom Fastify theme and it’s beautiful. But you can choose [one of our other themes](https://github.com/scalar/scalar/tree/main/packages/themes), too:
+By default, we’re using a custom Fastify theme and it’s beautiful. But you can choose [one of our other themes](https://github.com/khulnasoft/scalar/tree/main/packages/themes), too:
 
 ```ts
 await fastify.register(require('@scalar/fastify-api-reference'), {
@@ -71,4 +71,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).

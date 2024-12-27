@@ -37,7 +37,7 @@ import SideNavLink from './SideNavLink.vue'
       </a>
       <a
         class="no-underline block"
-        href="https://github.com/scalar/scalar"
+        href="https://github.com/khulnasoft/scalar"
         target="_blank">
         <ScalarDropdownItem class="flex items-center gap-1.5 w-full">
           <div class="flex items-center justify-center">
@@ -79,7 +79,7 @@ import SideNavLink from './SideNavLink.vue'
       </a>
       <a
         class="no-underline block"
-        href="https://github.com/scalar/scalar/issues/2669"
+        href="https://github.com/khulnasoft/scalar/issues/2669"
         target="_blank">
         <ScalarDropdownItem class="flex items-center gap-1.5 w-full">
           <div class="flex items-center justify-center">

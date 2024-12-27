@@ -11,6 +11,11 @@
 npm install @scalar/api-reference-react
 ```
 
+## Compatibility
+
+This package is compatible with React 19 and is untested on React 18. If you want guaranteed React 18 support please use
+version `1.0.107` of this package.
+
 ## Usage
 
 The API Reference package is written in Vue. That shouldn’t stop you from using it in React, though. We have created a client side wrapper in React:
@@ -37,11 +42,11 @@ function App() {
 export default App
 ```
 
-We wrote a [detailed integration guide for React](https://github.com/scalar/scalar/tree/main/documentation/integrations/react.md), too.
+We wrote a [detailed integration guide for React](https://github.com/khulnasoft/scalar/tree/main/documentation/integrations/react.md), too.
 
 ### Example
 
-You can find an example in this repo under [examples/react](https://github.com/scalar/scalar/tree/main/examples/react)
+You can find an example in this repo under [examples/react](https://github.com/khulnasoft/scalar/tree/main/examples/react)
 
 ## Props
 
@@ -50,7 +55,7 @@ ApiReference only takes one prop which is the configuration object.
 ### configuration: ReferenceProps
 
 You can find the full configuration options under
-[packages/api-reference](https://github.com/scalar/scalar/tree/main/packages/api-reference).
+[packages/api-reference](https://github.com/khulnasoft/scalar/tree/main/packages/api-reference).
 
 ## Community
 
@@ -58,4 +63,4 @@ We are API nerds. You too? Let’s chat on Discord: <https://discord.gg/scalar>
 
 ## License
 
-The source code in this repository is licensed under [MIT](https://github.com/scalar/scalar/blob/main/LICENSE).
+The source code in this repository is licensed under [MIT](https://github.com/khulnasoft/scalar/blob/main/LICENSE).
